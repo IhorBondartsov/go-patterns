@@ -1,50 +1,45 @@
-// Паттерн Состояние (State)
-//
-// В примере описываются варианты оповещения пользователя мобильного телефона.
-// На самом деле, хорошо было бы реализовать смену состояния внутри системы
-// оповещения (ModileAlert), по каким-либо критериям. Например, задействуя файл конфигруции.
-// Но для упращения примера, используется внешняя смена состояния, посредствам метода SetState()
-
+// Package state is an example of the State Pattern.
 package state
 
-// Тип ModileAlertStater, описывает общий интерфейс для различных состояний
-type ModileAlertStater interface {
+// MobileAlertStater provides a common interface for various states.
+type MobileAlertStater interface {
 	Alert() string
 }
 
-// Тип ModileAlert, реализует оповещение в зависимости от своего состояния
-type ModileAlert struct {
-	state ModileAlertStater
+// MobileAlert implements an alert depending on its state.
+type MobileAlert struct {
+	state MobileAlertStater
 }
 
-// Оповещение в зависимости от внутреннего состояния
-func (self *ModileAlert) Alert() string {
-	return self.state.Alert()
+// Alert returns a alert string
+func (a *MobileAlert) Alert() string {
+	return a.state.Alert()
 }
 
-// Меняет состояние
-func (self *ModileAlert) SetState(state ModileAlertStater) {
-	self.state = state
+// SetState changes state
+func (a *MobileAlert) SetState(state MobileAlertStater) {
+	a.state = state
 }
 
-func NewModileAlert() *ModileAlert {
-	return &ModileAlert{state: &MobileAlertVibration{}}
+// NewMobileAlert is the MobileAlert constructor.
+func NewMobileAlert() *MobileAlert {
+	return &MobileAlert{state: &MobileAlertVibration{}}
 }
 
-// Тип MobileAlertVibration, реализует оповещение только вибрацией
+// MobileAlertVibration implements vibration alert
 type MobileAlertVibration struct {
 }
 
-// Оповещение вибрацией
-func (self *MobileAlertVibration) Alert() string {
+// Alert returns a alert string
+func (a *MobileAlertVibration) Alert() string {
 	return "Vrrr... Brrr... Vrrr..."
 }
 
-// Тип MobileAlertSong, реализует оповещение только звуковым сигналом
+// MobileAlertSong implements beep alert
 type MobileAlertSong struct {
 }
 
-// Оповещение звуком
-func (self *MobileAlertSong) Alert() string {
+// Alert returns a alert string
+func (a *MobileAlertSong) Alert() string {
 	return "Белые розы, Белые розы. Беззащитны шипы..."
 }

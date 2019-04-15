@@ -1,44 +1,54 @@
-// Паттерн Наблюдатель (Observer)
-//
-// Описана модель проталкивания
-
+// Package observer is an example of the Observer Pattern.
+// Push model.
 package observer
 
-// Тип Subject, описывает интерфейс издателя
-type Subject interface {
+// Publisher interface.
+type Publisher interface {
 	Attach(observer Observer)
+	SetState(state string)
 	Notify()
 }
 
-// Тип Observer, описывает интерфейс подписчиков
+// Observer provides a subscriber interface.
 type Observer interface {
 	Update(state string)
 }
 
-// Тип ConcreteSubject, реализует издателя
-type ConcreteSubject struct {
+// ConcretePublisher implements the Publisher interface.
+type ConcretePublisher struct {
 	observers []Observer
-	State     string
+	state     string
 }
 
-// Добавляет подписчика
-func (self *ConcreteSubject) Attach(observer Observer) {
-	self.observers = append(self.observers, observer)
+// NewPublisher is the Publisher constructor.
+func NewPublisher() Publisher {
+	return &ConcretePublisher{}
 }
 
-// Отправляет уведомления методом проталкивания
-func (self *ConcreteSubject) Notify() {
-	for _, observer := range self.observers {
-		observer.Update(self.State)
+// Attach a Observer
+func (s *ConcretePublisher) Attach(observer Observer) {
+	s.observers = append(s.observers, observer)
+}
+
+// SetState sets new state
+func (s *ConcretePublisher) SetState(state string) {
+	s.state = state
+}
+
+// Notify sends notifications to subscribers.
+// Push model.
+func (s *ConcretePublisher) Notify() {
+	for _, observer := range s.observers {
+		observer.Update(s.state)
 	}
 }
 
-// Тип ConcreteObserver, реализует подписчика
+// ConcreteObserver implements the Observer interface.
 type ConcreteObserver struct {
 	state string
 }
 
-// Обновляет состояние подписчика
-func (self *ConcreteObserver) Update(state string) {
-	self.state = state
+// Update set new state
+func (s *ConcreteObserver) Update(state string) {
+	s.state = state
 }

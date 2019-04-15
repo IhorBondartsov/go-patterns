@@ -6,18 +6,10 @@ import (
 
 func TestPrototype(t *testing.T) {
 
-	productA := ConcreteProductA{"A"}
-	productB := ConcreteProductA{"B"}
-	
-	cloneProductA := productA.Clone();
-	cloneProductB := productB.Clone();
+	product := NewConcreteProduct("A")
+	cloneProduct := product.Clone()
 
-	if cloneProductA.GetName() != productA.GetName() {
+	if cloneProduct.GetName() != product.GetName() {
 		t.Error("Expect name \"A\" to equal, but not equal.")
 	}
-	
-	if cloneProductB.GetName() != productB.GetName() {
-		t.Error("Expect name \"B\" to equal, but not equal.")
-	}
-
 }

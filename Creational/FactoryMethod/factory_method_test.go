@@ -8,7 +8,7 @@ func TestFactoryMethod(t *testing.T) {
 
 	assert := []string{"A", "B", "C"}
 
-	factory := new(ConcreteCreator)
+	factory := NewCreater()
 	products := []Producter{
 		factory.CreateProduct("A"),
 		factory.CreateProduct("B"),
@@ -20,5 +20,4 @@ func TestFactoryMethod(t *testing.T) {
 			t.Errorf("Expect action to %s, but %s.\n", assert[i], action)
 		}
 	}
-
 }
